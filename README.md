@@ -9,3 +9,4 @@ cd nanokvm-zerotier
 ./install.sh
 ```
 
+Please find additional info and much more context in [this issue](https://github.com/sipeed/NanoKVM/issues/79)
