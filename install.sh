@@ -1,11 +1,24 @@
 #!/usr/bin/busybox sh
 
+# Check for AARCH64 architecture
+ARCH=$(uname -m)
+if [ "$ARCH" != "riscv64" ]; then
+    echo "This install script will not work on your device."
+    echo "It is intended only for riscv architecture while you're running $ARCH architecture."
+    echo "Assuming you are using nanokvm PRO you should be able to install zerotier from debian repositories."
+    echo "Try running ' apt update && apt install -y zerotier-one ' "
+    echo " === OR === "
+    echo "Try running ' curl -s https://install.zerotier.com | bash ' "
+    exit 0
+fi
+
 echo "===> Installing LSB functions..."
-mkdir /lib/lsb
+mkdir -p /lib/lsb
 cp ./init-functions /lib/lsb/
 chmod +x /lib/lsb/init-functions
 
 echo "===> Installing ZeroTier Binaries..."
+mkdir -p zt
 cd zt || exit
 curl -O https://download.zerotier.com/debian/bullseye/pool/main/z/zerotier-one/zerotier-one_1.8.1_riscv64.deb
 ar x zerotier-one_1.8.1_riscv64.deb && xzcat data.tar.xz | tar -xvf -
